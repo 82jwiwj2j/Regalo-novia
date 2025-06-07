@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Para la mejor novia</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background-color: #ffe6f0;
+      cursor: pointer;
+      overflow: hidden;
+      font-family: sans-serif;
+      color: #e60073;
+      user-select: none;
+    }
+    h1 {
+      position: absolute;
+      top: 20px;
+      width: 100%;
+      text-align: center;
+      font-size: 28px;
+      z-index: 9999;
+      pointer-events: none;
+    }
+    #mensaje {
+      position: absolute;
+      top: 60px;
+      width: 90%;
+      max-width: 400px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 16px;
+      text-align: center;
+      z-index: 9999;
+      line-height: 1.4;
+      pointer-events: none;
+    }
+    .emoji {
+      position: fixed;
+      font-size: 28px;
+      pointer-events: none;
+      user-select: none;
+      animation: floatDown 4s linear forwards;
+      will-change: transform;
+      z-index: 1000;
+    }
+    .te-amo {
+      position: fixed;
+      color: #e60073;
+      font-weight: bold;
+      font-size: 18px;
+      animation: floatUpText 2s ease-out forwards;
+      pointer-events: none;
+      user-select: none;
+      z-index: 1000;
+    }
+    @keyframes floatDown {
+      0% {
+        opacity: 1;
+        transform: translateY(-30px);
+      }
+      100% {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
+    }
+    @keyframes floatUpText {
+      to {
+        transform: translateY(-100px);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body ontouchstart="createLove(event); playMusic()" onclick="createLove(event); playMusic()">
+  <h1>Para la mejor novia ❤️</h1>
+  <div id="mensaje">
+    No es nuestro aniversario pero igual quería darte un regalo como este para que sepas lo mucho que te amo, disculpa si es simple pero es con amor. Te amo ❤️
+  </div>
+  <audio id="romanticMusic" loop preload="auto">
+    <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg" />
+  </audio>
+  <script>
+    let musicStarted = false;
+    function playMusic() {
+      if (!musicStarted) {
+        const music = document.getElementById('romanticMusic');
+        music.play().catch(() => {});
+        musicStarted = true;
+      }
+    }
+
+    function createLove(e) {
+      const x = e.touches ? e.touches[0].clientX : e.clientX;
+      const y = e.touches ? e.touches[0].clientY : e.clientY;
+
+      const text = document.createElement('div');
+      text.className = 'te-amo';
+      text.innerText = 'Te amo';
+      text.style.left = (x + 20) + 'px';
+      text.style.top = y + 'px';
+      document.body.appendChild(text);
+
+      setTimeout(() => {
+        text.remove();
+      }, 2000);
+    }
+
+    function createFallingEmoji() {
+      const emojis = ['❤️', '🌹'];
+      const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+      const span = document.createElement('div');
+      span.className = 'emoji';
+      span.style.left = Math.random() * window.innerWidth + 'px';
+      span.style.top = '-30px';
+      span.innerText = emoji;
+      document.body.appendChild(span);
+
+      setTimeout(() => {
+        span.remove();
+      }, 4000);
+    }
+
+    setInterval(createFallingEmoji, 300);
+  </script>
+</body>
+</html>
